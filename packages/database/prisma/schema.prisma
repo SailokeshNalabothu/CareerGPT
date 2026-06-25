@@ -40,21 +40,51 @@ model Company {
 }
 
 model Job {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
   title           String
   description     String
-  url             String   @unique
+  url             String    @unique
   location        String
-  type            String   // FULL_TIME, PART_TIME, CONTRACT, INTERN, REMOTE, HYBRID, ONSITE
+  type            String    // FULL_TIME, PART_TIME, CONTRACT, INTERN, REMOTE, HYBRID, ONSITE
   salaryRange     String?
   experienceLevel String?
-  skills          String[] @default([])
-  isVerified      Boolean  @default(false)
-  trackingStatus  String   @default("POSTED") // POSTED, UPDATED, EXPIRED, CLOSED
-  companyId       String   @db.ObjectId
-  company         Company  @relation(fields: [companyId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  skills          String[]  @default([])
+  isVerified      Boolean   @default(false)
+  trackingStatus  String    @default("POSTED") // POSTED, UPDATED, EXPIRED, CLOSED
+  companyId       String    @db.ObjectId
+  company         Company   @relation(fields: [companyId], references: [id])
+  roleId          String?   @db.ObjectId
+  role            JobRole?  @relation(fields: [roleId], references: [id])
+  countryId       String?   @db.ObjectId
+  country         Country?  @relation(fields: [countryId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model JobRole {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  slug      String   @unique
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Country {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  code      String   @unique // e.g. US, IN, DE
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CrawlerLog {
@@ -76,3 +106,4 @@ model WorkerLog {
   durationMs Int
   createdAt  DateTime @default(now())
 }
+

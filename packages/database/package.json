@@ -8,6 +8,7 @@
     "build": "tsc && prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
+    "seed": "tsc && node dist/seed.js",
     "lint": "eslint ."
   },
   "dependencies": {

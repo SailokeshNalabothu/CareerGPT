@@ -14,6 +14,9 @@ dotenv.config(); // Backup to load from local app directory
 import authRouter from './routes/auth.js';
 import jobsRouter from './routes/jobs.js';
 import companiesRouter from './routes/companies.js';
+import rolesRouter from './routes/roles.js';
+import countriesRouter from './routes/countries.js';
+import skillsRouter from './routes/skills.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,6 +48,9 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/jobs', jobsRouter);
 app.use('/api/companies', companiesRouter);
+app.use('/api/roles', rolesRouter);
+app.use('/api/countries', countriesRouter);
+app.use('/api/skills', skillsRouter);
 
 // Global Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
