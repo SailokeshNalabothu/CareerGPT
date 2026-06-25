@@ -200,7 +200,14 @@ export default function Dashboard() {
         fetchData(); // reload jobs
         setTimeout(() => setIsAdminModalOpen(false), 1200);
       } else {
-        setFormError(data.message || "Failed to add job listing");
+        if (data.errors) {
+          const errorMsgs = Object.entries(data.errors)
+            .map(([field, msgs]) => `${field}: ${(msgs as string[]).join(", ")}`)
+            .join(" | ");
+          setFormError(errorMsgs);
+        } else {
+          setFormError(data.message || "Failed to add job listing");
+        }
       }
     } catch (err) {
       console.error(err);
