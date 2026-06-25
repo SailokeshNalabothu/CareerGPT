@@ -1,0 +1,78 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Company {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String   @unique
+  domain          String
+  logoUrl         String?
+  techStack       String[] @default([])
+  hiringTrends    String[] @default([])
+  openRolesCount  Int      @default(0)
+  hiringLocations String[] @default([])
+  avgSalary       Float?
+  remotePercent   Float    @default(0)
+  reviewsLink     String?
+  jobs            Job[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Job {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  description     String
+  url             String   @unique
+  location        String
+  type            String   // FULL_TIME, PART_TIME, CONTRACT, INTERN, REMOTE, HYBRID, ONSITE
+  salaryRange     String?
+  experienceLevel String?
+  skills          String[] @default([])
+  isVerified      Boolean  @default(false)
+  trackingStatus  String   @default("POSTED") // POSTED, UPDATED, EXPIRED, CLOSED
+  companyId       String   @db.ObjectId
+  company         Company  @relation(fields: [companyId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CrawlerLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  crawlerName String
+  status      String   // SUCCESS, FAILED
+  jobsFound   Int      @default(0)
+  durationMs  Int
+  errorMsg    String?
+  createdAt   DateTime @default(now())
+}
+
+model WorkerLog {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  workerName String
+  status     String   // SUCCESS, FAILED
+  taskName   String
+  errorMsg   String?
+  durationMs Int
+  createdAt  DateTime @default(now())
+}

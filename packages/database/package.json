@@ -1,0 +1,21 @@
+{
+  "name": "@careergpt/database",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc && prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@prisma/client": "^5.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "prisma": "^5.11.0",
+    "typescript": "^5.4.5"
+  }
+}
