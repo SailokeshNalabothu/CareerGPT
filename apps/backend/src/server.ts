@@ -17,6 +17,7 @@ import companiesRouter from './routes/companies.js';
 import rolesRouter from './routes/roles.js';
 import countriesRouter from './routes/countries.js';
 import skillsRouter from './routes/skills.js';
+import adminRouter from './routes/admin.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -51,6 +52,7 @@ app.use('/api/companies', companiesRouter);
 app.use('/api/roles', rolesRouter);
 app.use('/api/countries', countriesRouter);
 app.use('/api/skills', skillsRouter);
+app.use('/api/admin', adminRouter);
 
 // Global Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
